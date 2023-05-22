@@ -19,7 +19,7 @@ class Project(object):
 
         job_list = []
         response = requests.request("GET", url, headers=self.__header, data=payload)
-        print(response.status_code)
+        print("status: " + str(response.status_code))
         if response.status_code==200:
             res = response.json()['content']
             for i in res:
@@ -40,7 +40,7 @@ class Project(object):
             })
 
             response = requests.request("POST", url, headers=self.__header, data=payload)
-            print(response.status_code)
+            print("status: " + str(response.status_code))
             file_name = "bilingual_"+job_id+"."+format_suffix[format]
             # print(response.text)
             file_path = os.path.join(target_folder,file_name)
