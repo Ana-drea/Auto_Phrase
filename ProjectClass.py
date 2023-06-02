@@ -6,10 +6,10 @@ from tools import get_headers,get_baseurl
 
 format_suffix = {"MXLF":"mxliff","DOCX":"docx","TMX":"tmx","XLIFF":"xlf"}
 class Project(object):
-    def __init__(self,project_id,baseurl):
+    def __init__(self,project_id):
         self.id = project_id
         self.__header = get_headers()
-        self.baseurl = baseurl
+        self.baseurl = get_baseurl()
 
 
     def get_jobs(self):
@@ -83,10 +83,70 @@ class BilingualFile(object):
     def __init__(self,response):
         self.response = response
 
+
+
+class Client(object):
+    def __init__(self,name):
+        self.name = name
+        self.__header = get_headers()
+        self.baseurl = get_baseurl()
+
+    def get_projects(self):
+        url = self.baseurl+"/web/api2/v1/projects?clientName=" + self.name
+
+        payload = {}
+
+        project_list = []
+        response = requests.request("GET", url, headers=self.__header, data=payload)
+        print("status: " + str(response.status_code))
+        if response.status_code==200:
+            pages = response.json()['totalPages']
+            for i in range(0, pages):
+                url_new = url + "&pageNumber=" + str(i)
+                response = requests.request("GET", url_new, headers=self.__header, data=payload)
+                res = response.json()['content']
+                for i in res:
+                    project_list.append(i['uid'])
+        return project_list
+
+class User(object):
+    def __init__(self,id):
+        self.id = id
+        self.__header = get_headers()
+        self.baseurl = get_baseurl()
+
+    def get_projects(self):
+        url = self.baseurl+"/web/api2/v1/projects?ownerId=" + str(self.id)
+
+        payload = {}
+
+        project_list = []
+        response = requests.request("GET", url, headers=self.__header, data=payload)
+        print("status: " + str(response.status_code))
+        if response.status_code==200:
+            pages = response.json()['totalPages']
+            for i in range(0, pages):
+                url_new = url + "&pageNumber=" + str(i)
+                response = requests.request("GET", url_new, headers=self.__header, data=payload)
+                res = response.json()['content']
+                for i in res:
+                    project_list.append(i['uid'])
+        return project_list
+
+
+
 # from tools import update_token,get_baseurl
-# project_id = "7stu5HkMpOaQ9txFTaeL81"
+# project_id = "FgahGcykugbQ41GSQxbJq7"
 # baseurl = get_baseurl()
 # update_token()
-# p = Project(project_id, baseurl)
+# p = Project(project_id)
 # p.get_job_number()
 # p.get_bilingual_files("MXLF","C:\\Users\\AnZhou\\Downloads\\bilingual")
+
+# from tools import update_token,get_baseurl
+# client = Client("ADSK")
+# print(client.get_projects())
+
+from tools import update_token,get_baseurl
+user = User(105332)
+print(user.get_projects())

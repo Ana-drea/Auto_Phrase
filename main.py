@@ -3,8 +3,7 @@ import argparse
 from ProjectClass import Project
 from tools import update_token,get_baseurl
 
-baseurl = get_baseurl()
-print("base url: "+baseurl)
+print("base url: "+get_baseurl())
 update_token()
 
 parser = argparse.ArgumentParser()
@@ -16,7 +15,7 @@ file_format = args.format
 target_folder = args.target
 project_id=args.id
 
-p = Project(project_id, baseurl)
+p = Project(project_id)
 if file_format not in ("MXLF","DOCX","TMX","XLIFF"):
     file_format = "MXLF"
 # p.get_bilingual_files(file_format)[0].response.text
