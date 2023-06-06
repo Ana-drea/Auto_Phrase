@@ -147,6 +147,10 @@ class User(object):
 # client = Client("ADSK")
 # print(client.get_projects())
 
-from tools import update_token,get_baseurl
-user = User(105332)
-print(user.get_projects())
+# from tools import update_token,get_baseurl
+# user = User(105332)
+# print(user.get_projects())
+
+from tools import update_token,get_baseurl,Create_project_from_template
+Create_project_from_template('Mg6WX0iujnMii2v8BjLfI0','moldfow_fra_20230606')
+

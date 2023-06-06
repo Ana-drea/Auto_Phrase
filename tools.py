@@ -126,3 +126,18 @@ def list_all_projects():
 
     print(response.text)
 
+
+def Create_project_from_template(template_id,project_name):
+    update_token()
+
+    url = get_baseurl() + "/web/api2/v2/projects/applyTemplate/"+template_id
+    payload = json.dumps({
+        "name": project_name
+    })
+    headers = get_headers()
+    # headers['Accept'] = 'application/json'
+    response = requests.request("POST", url, headers=headers, data=payload)
+
+    print(response.json()['uid'])
+
+
